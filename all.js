@@ -1,23 +1,28 @@
 const inputValue = document.querySelector(".inputValue");
 const addBtn = document.querySelector(".btn_add");
 let data = [];
-addBtn.addEventListener("click",(e) => {
-    e.preventDefault();
-    if(inputValue.value !== ""){
-       let obj ={
-        input: inputValue.value,
-        id: new Date().getTime(),
-        check: ""
-        }
-        data.unshift(obj);
-        inputValue.value = "";
-        updateList();
-    }else{
-        alert("請輸入內容!")
-    }
-});
 
 // 新增代辦事項
+addBtn.addEventListener("click",(e) => {
+    e.preventDefault();
+    addTodo();
+});
+
+const addTodo = () =>{
+    if(inputValue.value !== ""){
+        let obj ={
+         input: inputValue.value,
+         id: new Date().getTime(),
+         check: ""
+         }
+         data.unshift(obj);
+         inputValue.value = "";
+         updateList();
+    }else{
+         alert("請輸入內容!");
+    }
+}
+
 const list = document.querySelector(".list");
 const render = (data) =>{
     let str = "";
@@ -81,3 +86,18 @@ const updateList = () =>{
     todoNum.textContent = todo.length;
     render(showData);
 }
+
+// 刪除全部 
+const delCompleted = document.querySelector(".delCompleted");
+delCompleted.addEventListener("click",(e) =>{
+    e.preventDefault();
+    data = data.filter((item) => item.check === "");
+    updateList();
+})
+
+// 鍵盤事件 - Enter 
+inputValue.addEventListener("keyup",(e) =>{
+    if(e.key === "Enter"){
+        addTodo();
+    }
+})
