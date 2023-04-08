@@ -11,7 +11,7 @@ addBtn.addEventListener("click",(e) => {
         }
         data.unshift(obj);
         inputValue.value = "";
-        render();
+        updateList();
     }else{
         alert("請輸入內容!")
     }
@@ -19,7 +19,7 @@ addBtn.addEventListener("click",(e) => {
 
 // 新增代辦事項
 const list = document.querySelector(".list");
-const render = () =>{
+const render = (data) =>{
     let str = "";
     data.forEach((item) =>{
         str += `<li data-id="${item.id}">
@@ -51,5 +51,33 @@ list.addEventListener("click",(e) =>{
             }
         });
     }
-    render();
+    updateList();
 });
+
+// 切換 tab &修改完成狀態
+const tab = document.querySelector(".tab");
+const allTabs = document.querySelectorAll(".tab li");
+let tabStatus = "";
+tab.addEventListener("click",(e) =>{
+    tabStatus = e.target.dataset.status;
+    allTabs.forEach((item) =>{
+        item.classList.remove("active");
+    });
+    e.target.classList.add("active");
+    updateList();
+})
+
+const updateList = () =>{
+    let showData = [];
+    if(tabStatus === "待完成"){
+       showData = data.filter((item) => item.check === ""); 
+    }else if(tabStatus === "已完成"){
+       showData = data.filter((item) => item.check === "checked");
+    }else{
+       showData = data;
+    }
+    const todoNum = document.querySelector(".todoNum");
+    let todo = data.filter((item) => item.check === "");
+    todoNum.textContent = todo.length;
+    render(showData);
+}
