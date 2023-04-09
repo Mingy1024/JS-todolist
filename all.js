@@ -9,18 +9,16 @@ addBtn.addEventListener("click",(e) => {
 });
 
 const addTodo = () =>{
-    if(inputValue.value !== ""){
-        let obj ={
-         input: inputValue.value,
+    if(inputValue.value.trim() !== ""){
+        let obj = {
+         input: inputValue.value.trim(),
          id: new Date().getTime(),
          check: ""
          }
          data.unshift(obj);
          inputValue.value = "";
-         updateList();
-    }else{
-         alert("請輸入內容!");
     }
+    updateList();
 }
 
 const list = document.querySelector(".list");
