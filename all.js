@@ -17,8 +17,8 @@ const addTodo = () =>{
          }
          data.unshift(obj);
          inputValue.value = "";
+         updateList();
     }
-    updateList();
 }
 
 const list = document.querySelector(".list");
@@ -39,12 +39,11 @@ const render = (data) =>{
 // 刪除單筆/切換打勾
 list.addEventListener("click",(e) =>{
     let id = e.target.closest("li").getAttribute("data-id")
+    let index = data.findIndex((item) => item.id == id);
     if(e.target.classList.contains("delete")){
         e.preventDefault();
-        let index = data.findIndex((item) => item.id == id);
         data.splice(index,1);
     }else{
-        data.forEach((item) =>{
             if(item.id == id){
                 if(item.check !== "checked"){
                     item.check = "checked";
@@ -52,7 +51,6 @@ list.addEventListener("click",(e) =>{
                     item.check = "";
                 }
             }
-        });
     }
     updateList();
 });
